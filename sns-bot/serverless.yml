@@ -1,0 +1,29 @@
+service: lambda-to-jenkins
+
+frameworkVersion: ">1.0 <2.0"
+environment:
+  WEBHOOK_SECRET: 752c5198b330341c6fd32a2941b3b5b9d95d62ea
+  APP_ID: 24601
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: beta
+  region: ${file(../sns-bot/config.json):aws.region}
+  timeout: 30
+
+functions:
+  snsConsume:
+    handler: lambda/snsConsume.handler
+    events:
+      - sns: ${file(../sns-bot/config.json):aws.topic_arn}
+
+  snsPublisher:
+    handler: lambda/github.handler
+    events:
+      - http:
+          path: /
+          method: post
+
+plugins:
+  - serverless-offline

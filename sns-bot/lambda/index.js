@@ -1,12 +1,6 @@
-module.exports = awsSNSPRPublisher
-
-// import libs
-const snsPublish = require('./lib/sns/publish')
-
-function awsSNSPRPublisher(app) {
-  // Your code here
-  app.log('Yay, the app was loaded!')
-
+const publisher = require('./lib/publish-to-sns')
+module.exports = app => {
+  app.log('Loaded probot App')
   app.on(['pull_request.assigned',
           'pull_request.unassigned',
           'pull_request.labeled',
@@ -17,8 +11,5 @@ function awsSNSPRPublisher(app) {
           'pull_request.reopened',
           'pull_request.synchronized',
           'pull_request.*' // future proofing in case there are more in the future
-
-        ], async context => {
-          snsPublish(app, context)
-  })
+        ], publisher)
 }

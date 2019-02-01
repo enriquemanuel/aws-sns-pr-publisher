@@ -1,0 +1,8 @@
+{
+    "aws": {
+        "region": "us-east-1",
+        "secret_key_id": "XXXXXYYYYY",
+        "secret_access_key": "SOMEKEYHERE",
+        "topic_arn": "sns_topic_arn_here make sure the key above has access to this topic",
+    }
+}
